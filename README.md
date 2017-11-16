@@ -10,6 +10,6 @@ wget https://raw.githubusercontent.com/Adagior/ocserv-centos/master/ocserv-auto.
 
 sh ocserv-auto.sh
 
-自行修改：vi /usr/local/etc/ocserv/ocserv.conf
+自行修改：vi /etc/ocserv/ocserv.conf
 
 不转发：no-route  转发:route
