@@ -286,3 +286,5 @@ ConfigOcserv
 ConfigFirewall
 ConfigSystem
 PrintResult
+
+exit 0
