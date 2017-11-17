@@ -2,6 +2,8 @@
 ocserv-centos 自用
 白名单修改
 
+由于版本更新 需要先安装 yum install -y ocserv
+
 yum update
 
 yum install wget net-tools
