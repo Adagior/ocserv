@@ -14,4 +14,8 @@ sh ocserv-auto.sh
 
 自行修改：vi /etc/ocserv/ocserv.conf
 
-不转发：no-route  转发:route
+不转发：no-route  转发: route
+
+重启服务： systemctl restart ocserv.service
+
+添加用户： ocpasswd -c /usr/local/etc/ocserv/ocpasswd 用户名
