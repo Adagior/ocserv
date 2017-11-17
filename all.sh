@@ -193,7 +193,7 @@ _EOF_
     sed -i 's/user-profile = profile.xml/#user-profile = profile.xml/g' "${confdir}/ocserv.conf"
 
     cat << _EOF_ >>${confdir}/ocserv.conf
-no-route = 192.168.0.0/192.168.255.255
+
 _EOF_
 
 }
