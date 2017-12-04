@@ -8,7 +8,9 @@ yum update
 
 yum install wget net-tools
 
-wget https://raw.githubusercontent.com/Adagior/ocserv-centos/master/ocserv-auto.sh 
+wget https://github.com/Adagior/ocserv/raw/master/all.sh
+
+带规则版：https://raw.githubusercontent.com/Adagior/ocserv-centos/master/ocserv-auto.sh 
 
 sh ocserv-auto.sh
 
