@@ -1,9 +1,7 @@
 # ocserv-centos
 ocserv-centos 自用
 白名单修改
-
-由于版本更新 需要先安装 yum install -y ocserv
-
+```
 yum update
 
 yum install wget net-tools
@@ -13,7 +11,7 @@ wget https://github.com/Adagior/ocserv/raw/master/all.sh
 带规则版：https://raw.githubusercontent.com/Adagior/ocserv-centos/master/ocserv-auto.sh 
 
 sh ocserv-auto.sh
-
+```
 自行修改：vi /etc/ocserv/ocserv.conf
 
 不转发：no-route  转发: route
