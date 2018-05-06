@@ -19,3 +19,6 @@ sh ocserv-auto.sh
 重启服务： systemctl restart ocserv.service
 
 添加用户： ocpasswd -c /usr/local/etc/ocserv/ocpasswd 用户名
+
+
+all：全部代理  ip：国内不代理 auto：国外代理
