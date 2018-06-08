@@ -8,9 +8,10 @@ yum install wget net-tools
 
 wget https://github.com/Adagior/ocserv/raw/master/all.sh
 
-带规则版：https://raw.githubusercontent.com/Adagior/ocserv-centos/master/ocserv-auto.sh 
+带规则版：
+wget https://raw.githubusercontent.com/Adagior/ocserv-centos/master/ocserv-ip.sh
 
-sh ocserv-auto.sh
+sh ocserv-ip.sh
 ```
 自行修改：vi /etc/ocserv/ocserv.conf
 
