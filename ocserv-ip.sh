@@ -8,13 +8,13 @@
 #                                                  #
 ####################################################
 
-# ¼ì²âÊÇ·ñÊÇrootÓÃ»§
+# æ£€æµ‹æ˜¯å¦æ˜¯rootç”¨æˆ·
 if [[ $(id -u) != "0" ]]; then
     printf "\e[42m\e[31mError: You must be root to run this install script.\e[0m\n"
     exit 1
 fi
 
-# ¼ì²âÊÇ·ñÊÇCentOS 7»òÕßRHEL 7
+# æ£€æµ‹æ˜¯å¦æ˜¯CentOS 7æˆ–è€…RHEL 7
 if [[ $(grep "release 7." /etc/redhat-release 2>/dev/null | wc -l) -eq 0 ]]; then
     printf "\e[42m\e[31mError: Your OS is NOT CentOS 7 or RHEL 7.\e[0m\n"
     printf "\e[42m\e[31mThis install script is ONLY for CentOS 7 and RHEL 7.\e[0m\n"
@@ -25,23 +25,23 @@ basepath=$(dirname $0)
 cd ${basepath}
 
 function ConfigEnvironmentVariable {
-    # ±äÁ¿ÉèÖÃ
-    # µ¥IP×î´óÁ¬½ÓÊı£¬Ä¬ÈÏÊÇ2
+    # å˜é‡è®¾ç½®
+    # å•IPæœ€å¤§è¿æ¥æ•°ï¼Œé»˜è®¤æ˜¯2
     maxsameclients=10
-    # ×î´óÁ¬½ÓÊı£¬Ä¬ÈÏÊÇ16
+    # æœ€å¤§è¿æ¥æ•°ï¼Œé»˜è®¤æ˜¯16
     maxclients=1024
-    # ·şÎñÆ÷µÄÖ¤ÊéºÍkeyÎÄ¼ş£¬·ÅÔÚ±¾½Å±¾µÄÍ¬Ä¿Â¼ÏÂ£¬keyÎÄ¼şµÄÈ¨ÏŞÓ¦¸ÃÊÇ600»òÕß400
+    # æœåŠ¡å™¨çš„è¯ä¹¦å’Œkeyæ–‡ä»¶ï¼Œæ”¾åœ¨æœ¬è„šæœ¬çš„åŒç›®å½•ä¸‹ï¼Œkeyæ–‡ä»¶çš„æƒé™åº”è¯¥æ˜¯600æˆ–è€…400
     servercert=${1-server-cert.pem}
     serverkey=${2-server-key.pem}
-    # VPN ÄÚÍø IP ¶Î
+    # VPN å†…ç½‘ IP æ®µ
     vpnnetwork="192.168.8.0/21"
     # DNS
     dns1="8.8.8.8"
     dns2="8.8.4.4"
-    # ÅäÖÃÄ¿Â¼
+    # é…ç½®ç›®å½•
     confdir="/etc/ocserv"
 
-    # »ñÈ¡Íø¿¨½Ó¿ÚÃû³Æ
+    # è·å–ç½‘å¡æ¥å£åç§°
     systemctl start NetworkManager.service
     ethlist=$(nmcli --nocheck d | grep -v -E "(^(DEVICE|lo)|unavailable|^[^e])" | awk '{print $1}')
     eth=$(printf "${ethlist}\n" | head -n 1)
@@ -58,7 +58,7 @@ function ConfigEnvironmentVariable {
         fi
     fi
 
-    # ¶Ë¿Ú£¬Ä¬ÈÏÊÇ443
+    # ç«¯å£ï¼Œé»˜è®¤æ˜¯443
     port=443
     echo -e "\nPlease input the port ocserv listen to."
     printf "Default port is \e[33m${port}\e[0m, let it blank to use this port: "
@@ -67,7 +67,7 @@ function ConfigEnvironmentVariable {
         port=${porttmp}
     fi
 
-    # ÓÃ»§Ãû£¬Ä¬ÈÏÊÇuser
+    # ç”¨æˆ·åï¼Œé»˜è®¤æ˜¯user
     username=user
     echo -e "\nPlease input ocserv user name."
     printf "Default user name is \e[33m${username}\e[0m, let it blank to use this user name: "
@@ -76,7 +76,7 @@ function ConfigEnvironmentVariable {
         username=${usernametmp}
     fi
 
-    # Ëæ»úÃÜÂë
+    # éšæœºå¯†ç 
     randstr() {
         index=0
         str=""
@@ -96,7 +96,7 @@ function ConfigEnvironmentVariable {
 }
 
 function PrintEnvironmentVariable {
-    # ´òÓ¡ÅäÖÃ²ÎÊı
+    # æ‰“å°é…ç½®å‚æ•°
     clear
 
     ipv4=$(ip -4 -f inet addr show ${eth} | grep 'inet' | sed 's/.*inet \([0-9\.]\+\).*/\1/')
@@ -125,21 +125,21 @@ function PrintEnvironmentVariable {
 }
 
 function InstallOcserv {
-    # Éı¼¶ÏµÍ³
+    # å‡çº§ç³»ç»Ÿ
     #yum update -y -q
 
-    # °²×° epel-release
+    # å®‰è£… epel-release
     if [ $(grep epel /etc/yum.repos.d/*.repo | wc -l) -eq 0 ]; then
         yum install -y -q epel-release && yum clean all && yum makecache fast
     fi
-    # °²×°ocserv
+    # å®‰è£…ocserv
     yum install -y ocserv
 }
 
 function ConfigOcserv {
-    # ¼ì²âÊÇ·ñÓĞÖ¤ÊéºÍ key ÎÄ¼ş
+    # æ£€æµ‹æ˜¯å¦æœ‰è¯ä¹¦å’Œ key æ–‡ä»¶
     if [[ ! -f "${servercert}" ]] || [[ ! -f "${serverkey}" ]]; then
-        # ´´½¨ ca Ö¤ÊéºÍ·şÎñÆ÷Ö¤Êé£¨²Î¿¼http://www.infradead.org/ocserv/manual.html#heading5£©
+        # åˆ›å»º ca è¯ä¹¦å’ŒæœåŠ¡å™¨è¯ä¹¦ï¼ˆå‚è€ƒhttp://www.infradead.org/ocserv/manual.html#heading5ï¼‰
         certtool --generate-privkey --outfile ca-key.pem
 
         cat << _EOF_ >ca.tmpl
@@ -172,11 +172,11 @@ _EOF_
         --template server.tmpl --outfile ${servercert}
     fi
 
-    # ¸´ÖÆÖ¤Êé
+    # å¤åˆ¶è¯ä¹¦
     cp "${servercert}" /etc/pki/ocserv/public/server.crt
     cp "${serverkey}" /etc/pki/ocserv/private/server.key
 
-    # ±à¼­ÅäÖÃÎÄ¼ş
+    # ç¼–è¾‘é…ç½®æ–‡ä»¶
     (echo "${password}"; sleep 1; echo "${password}") | ocpasswd -c "${confdir}/ocpasswd" ${username}
 
     sed -i 's@auth = "pam"@#auth = "pam"\nauth = "plain[/etc/ocserv/ocpasswd]"@g' "${confdir}/ocserv.conf"
@@ -400,7 +400,7 @@ function ConfigFirewall {
     firewalldisactive=$(systemctl is-active firewalld.service)
     iptablesisactive=$(systemctl is-active iptables.service)
 
-    # Ìí¼Ó·À»ğÇ½ÔÊĞíÁĞ±í
+    # æ·»åŠ é˜²ç«å¢™å…è®¸åˆ—è¡¨
     if [[ ${firewalldisactive} = 'active' ]]; then
         echo "Adding firewall ports."
         firewall-cmd --permanent --add-port=${port}/tcp
@@ -422,23 +422,23 @@ function ConfigFirewall {
 }
 
 function ConfigSystem {
-    #¹Ø±Õselinux
+    #å…³é—­selinux
     sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
     setenforce 0
-    #ĞŞ¸ÄÏµÍ³
+    #ä¿®æ”¹ç³»ç»Ÿ
     echo "Enable IP forward."
     sysctl -w net.ipv4.ip_forward=1
     echo net.ipv4.ip_forward = 1 >> "/etc/sysctl.conf"
     systemctl daemon-reload
     echo "Enable ocserv service to start during bootup."
     systemctl enable ocserv.service
-    #¿ªÆôocserv·şÎñ
+    #å¼€å¯ocservæœåŠ¡
     systemctl start ocserv.service
     echo
 }
 
 function PrintResult {
-    #¼ì²â·À»ğÇ½ºÍocserv·şÎñÊÇ·ñÕı³£
+    #æ£€æµ‹é˜²ç«å¢™å’ŒocservæœåŠ¡æ˜¯å¦æ­£å¸¸
     clear
     printf "\e[36mChenking Firewall status...\e[0m\n"
     iptables -L -n | grep --color=auto -E "(${port}|${vpnnetwork})"
@@ -462,7 +462,7 @@ function PrintResult {
         printf "\e[33mWARNING!!! ocserv service is NOT Running! \e[0m\n"
     fi
 
-    #´òÓ¡VPN²ÎÊı
+    #æ‰“å°VPNå‚æ•°
     printf "
     if there are NO WARNING above, then you can connect to
     your ocserv VPN Server with the user and password below:
@@ -485,3 +485,4 @@ ConfigSystem
 PrintResult
 
 exit 0
+
