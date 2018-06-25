@@ -23,3 +23,6 @@ sh ip.sh
 
 
 all：全部代理  ip：国内不代理 auto：国外代理
+
+
+https://github.com/CNMan/ocserv-cn-no-route
